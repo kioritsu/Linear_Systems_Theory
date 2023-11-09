@@ -1,0 +1,173 @@
+\documentclass{jsarticle}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+
+\begin{document}
+
+\rightline{2022/5/26}
+
+
+\section*{3.3 インパルス応答}
+
+線形"SISO"システムを考え、図 3.3 (a) の単位面積のパルス信号を$\delta_\Delta$とする。
+$\delta_\Delta$を用いると、図3.3 (c) の入力信号$u : [ 0 , \infty)\rightarrow\mathbb{R}$の近似値を
+\begin{equation}
+  u_\Delta(t) := \sum^\infty_{k=0} u(k\Delta)\Delta\delta_\Delta(t-k\Delta)\;,\; \forall t\geq 0 \tag{3.1}
+\end{equation}
+ように書くことができる。
+任意の$\tau\geq 0$において、入力$\delta_\Delta( t , \tau )$ に対応する
+出力を$g_\Delta ( t - \tau ) , t\geq 0$とする。
+\begin{equation*}
+  \delta_\Delta(t-\tau) \leadsto  g_\Delta(t,\tau)
+\end{equation*}
+( 3.1 ) と直線性から 
+\begin{equation}
+  u_\Delta \leadsto y_\Delta(t) := \sum^\infty_{k=0} \Delta u(k\Delta)g_\Delta(t,k\Delta)\;,\;\forall t\geq 0 \tag{3.2}
+\end{equation}
+さらに、$\Delta \rightarrow 0$とすると$u_\Delta \rightarrow u$であるため、
+$u$に対応する出力は、
+\begin{equation}
+  u \leadsto y(t) = \lim_{\Delta\rightarrow 0}{y_\Delta(t)}
+  = \lim_{\Delta\rightarrow 0}{\sum^\infty_{k=0}}\Delta u(k\Delta)g_\Delta(t,k\Delta)
+  = \int^\infty_0 u(\tau)g(t,\tau)d\tau\;,\;\forall t\geq 0 \tag{3.3}
+\end{equation}
+で表され、$g$は(3.4)式で定義される。
+\begin{equation}
+  g(t,\tau) = \lim_{\Delta\rightarrow 0}{g_\Delta(t,\tau)} \tag{3.4}
+\end{equation}
+関数$g ( t , \tau )$ は、長さが0で単位面積の入力パルス（ディラック・パルス）を時刻$t$に入力したときの、時刻$\tau$の出力値と見なすことができる。
+
+MIMO システムの場合、これは以下の結果に一般化される。
+\begin{itembox}[l]{定理3.2:インパルス応答}
+  $k$個の入力と$m$個の出力を持つ連続時間線形システムを考える。
+  各入力 $u$ に対して、対応する出力が(3.5)式で与えられるような
+  行列値信号 $G ( t , \tau ) \in \mathbb{R}^{m\times k}$ が存在する。
+  \begin{equation}
+    u \leadsto y(t) =\int^\infty_0 G(t,\tau)u(\tau)d\tau\;,\;\forall t\geq 0 \tag{3.5}
+  \end{equation}
+  行列値信号 $G ( t , \tau ) \in \mathbb{R}^{m\times k}$は ( 連続時間 ) インパルス応答と呼ばれる。
+  そのエントリ $g_{ij} ( t , \tau )$ は、
+  時刻$t$の$j$番目の入力に加えられた、
+  長さが0で単位面積のパルス（ディラック・パルス）に対応する
+  時刻$t$の$i$番目のエントリの出力と見なすことができる。
+\end{itembox}
+
+\newpage
+
+特性(インパルス応答)\\
+P3.4\;\;因果系の場合、インパルス応答は式(3.6)を満たすように選ぶことができる。
+\begin{equation}
+  G(t,\tau) = 0\;,\;\forall \tau>t \tag{3.6}
+\end{equation}
+P3.5\;\;時間不変系の場合，インパルス応答は式(3.7)を満たすように選ぶことができる．
+\begin{equation}
+  G(t+T,\tau+T) = G(t,\tau) \;,\;\forall t,\tau,T \geq 0 \tag{3.7}
+\end{equation}
+特に$\tau=0,t_1=T,t_2=t+T$ の時、
+\begin{equation}
+  G(t_2,t_1)=G(t_2-t_1,0)\;,\;\forall t_2\geq t_1\geq 0
+\end{equation} 
+となり、$G(t_2,t_1)$は単に $t_2-t_1$ の関数であることがわかる。\\
+P3.6\;\;因果的で時間不変な系では、式(3.5) は式(3.8)のように書ける。
+\begin{equation}
+  u\leadsto y(t) = \int^t_0 G(t-\tau)u(\tau)d\tau =: (G\star u)(t)\;,\;\forall t\geq 0 \tag{3.8}
+\end{equation}
+ここで、$\star$は畳み込み演算子を表す。
+
+証明\;\;簡単のため、SISO システムを仮定する。\\
+P3.4\;\; 線型性より 
+\begin{equation}
+  u=0 \leadsto y=0
+\end{equation}
+時刻$\tau$のインパルス$\delta (t-\tau )$ は $[ 0 , \tau )$ のすべての $t$ に対してゼロ入力に等しいので、
+因果性から、このインパルスは $[ 0 , \tau )$ でゼロである出力 $y$ を持たなければならない。つまり、
+\begin{equation}
+  \begin{aligned}
+    \bar{u} := \delta (t-\tau) &= 0 \;,\;\forall 0\leq t <\tau\\
+    &\Rightarrow \exists\bar{y}:\delta(t-\tau) \leadsto \bar{y} \;\;\text{and}\;\; \bar{y}(t) =0\;,\;\forall 0\leq t <\tau
+  \end{aligned}
+\end{equation}
+この入力を用いてインパルス応答 $g ( t , \tau )$ を構成すると (3.6) が得られる。\\
+
+P3.5\;\; あるインパルス時刻 $\tau + T\geq 0$ に対して、時刻 $\tau + T$ のインパルス 
+$u ( t ) := \delta ( t - \tau - T )$ に対する特定の出力 $y ( t )$ を使って、次のようにインパルス応答 $g ( t , \tau + T )$ を構成する。
+\begin{equation}
+  u(t) := \delta(t-\tau-T) \leadsto y(t) =: g(t,\tau+T)
+\end{equation}
+時刻 $\tau$ のインパルス $\delta ( t-\tau )$ に対応するインパルス応答 $g ( t , \tau )$ の値を選ぶには、
+新しい入力 $\bar{u} ( t ) := \delta( t - \tau )$ が $u ( t ) := \delta ( t -\tau- T )$ から $T$ 個シフトして得られることを利用し、
+次のようにする。
+\begin{equation}
+  \bar{u} = u(t+T)=\delta(t-\tau)
+\end{equation}
+時間不変性により、$\bar{u}$ には次のような出力$\bar{y}$が存在することになる。
+\begin{equation}
+  \bar{u}(t)=u(t+T)=\delta(t-\tau) \leadsto \bar(y)(t)=y(t+T)=g(t+T,\tau+T)
+\end{equation}
+$\bar{y}$ を用いて $g ( t , \tau ) $を構成すると、次のようになる。
+\begin{equation}
+  g(t,\tau) = \bar{y}(t) = g(t+T,\tau+T)
+\end{equation}
+これらの出力を用いてインパルス応答を構成すると、( 3.7 ) が得られる。\\
+
+P3.6 \;\;P3.5 の$ G ( t ,\tau )$ を $G ( t - \tau )$に置き換えることにより 式(3.8) が得られる。
+P3.4 より、$G ( t , \tau ) = G ( t-\tau )$ は $\tau > t$ で$0$になるので、さらに積分上限の $\infty$ を $t$ で置き換えることができる。$\square$ \\
+
+因果系、時間不変系では、P3.6が強制応答を計算する便利な方法となる。
+信号の (時間領域) 変換と、それらのラプラス変換の (周波数領域) 積の間には閉じた関係があるため、
+周波数領域での強制応答を計算するのは特に簡単。これについては、次のセクションで説明する。
+
+
+\newpage
+\section*{3.4 ラプラス変換とZ変換 ( レビュー )}
+
+連続時間信号 $x (t)\;,\;t\geq 0$ が与えられたとき、その"片側ラプラス変換"は次式で与えられる。
+\begin{equation}
+  \mathcal{L} [x(t)] = \hat{x}(s) = \int^\infty_0 e^{-st}x(t) dt \;,\;s \in \mathbb{C} 
+\end{equation}
+信号 $x ( t )$ の微分 $\dot{x} ( t )$ のラプラス変換と $\hat{x}( t )$ の関係は式(3.9)。
+\begin{equation}
+  \mathcal{L}[\dot{x}(t)] =\hat{\dot{x}}(s) = s\hat{x}(s)-x(0)\;,\;s\in\mathbb{C}
+\end{equation}
+2 つの信号 $x ( t )$ と $y ( t ), t\geq 0$ が与えられたとき、それらの畳み込みのラプラス変換は式(3.10)で与えられる。
+\begin{equation}
+  \mathcal{L}[(x\star y)(t)] = \mathcal{L}\left[ \int^t_0 x(\tau)y(t-\tau)d\tau \right] = \hat{x}(s)\hat{y}(s) \tag{3.10}
+\end{equation}
+離散時間系では、$Z$ 変換は連続時間系の研究におけるラプラス変換に類似した役割を果たす。
+離散時間信号 $x ( t ) , t\in \{ 0 , 1 , 2 , \dots\}$が与えられた時、
+その ( 一方 ) Z 変換は次式で与えられる。
+\begin{equation}
+  \hat{x}(z) = Z[x(t)] := \sum^\infty_{t=0} z^{-t}x(t)\;,\;z \in \mathbb{C}
+\end{equation}
+タイムシフトした信号$ x ( t + 1 )$ の Z 変換と $\hat{x}( t )$ の関係は式(3.11)。
+\begin{equation}
+  Z[x(t+1)] = z(\hat{x}(s)-x(0)) \;,\;s\in \mathbb{C} \tag{3.11}
+\end{equation}
+2 つの信号 $x ( t )$ と $y ( t ), t\geq 0$ が与えられたとき、それらの畳み込みのZ変換は式(3.12)で与えられる。
+\begin{equation}
+  Z[(x\star y)(t)] = Z\left[ \sum^t_{\tau=0} x(\tau)y(t-\tau) \right]=\hat{x}(z)\hat{y}(z) \tag{3.12}
+\end{equation}
+ラプラス変換とZ変換については、例えば[ 14 ]で詳しく説明されている。
+
+
+
+
+\end{document}

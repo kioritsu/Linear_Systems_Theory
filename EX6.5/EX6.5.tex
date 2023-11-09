@@ -1,0 +1,71 @@
+\documentclass{jsarticle}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+
+\begin{document}
+
+\rightline{2022/6/14}
+\section*{EX6.5:上三角行列の指数}
+上三角行列$A$を考える。
+\begin{itemize}
+  \item[(a)] $e^{tA}$も上三角行列であることを示せ
+  \item[(b)] $A$の対角要素と$e^{tA}$の対角要素を関連づけよ。
+\end{itemize}
+ヒント：行列の指数の定義を利用せよ。
+\;\\
+(a)行列指数の定義より、
+\begin{equation}
+  e^{tA} = \sum^{\infty}_{k=0} \frac{t^k}{k!}A^k \;,\;\forall t \in \mathbb{R} 
+\end{equation}
+上三角行列の累乗は上三角行列であり、上三角行列の和も上三角行列である。
+$\frac{t^k}{k!}$は定数関数のため、$e^{tA}$も上三角行列である。\\
+(b)\;\;
+$A$の対角要素を$a_{jj}$、$e^{tA}$の対角要素を$e^{tA}_{jj}$とする。
+上三角行列の累乗の対角要素は、${(A^k)}_{jj} = {(a_{jj})}^k$を満たすため、
+\begin{equation}
+  e^{tA}_{jj} = \sum^{\infty}_{k=0} \frac{t^k}{k!}{(a_{jj})}^k \;,\;\forall t \in \mathbb{R} 
+\end{equation}
+
+\;\\
+
+上三角行列の性質の説明。\\
+$n\times n$行列$A$が上三角行列であるとき、$a_{ij} = 0 (i>j)$である。\\
+\;\\
+上三角行列$A$と$B$の和の$i>j$である要素について考える。
+\begin{equation}
+  a_{ij} + b_{ij} = 0+0 = 0
+\end{equation}
+$i>j$である要素は0なので上三角行列$A$と$B$の和も上三角行列\\
+\;\\
+上三角行列$A$の2乗の$i>j$である要素について考える。
+\begin{equation}
+  {(A^2)}_{ij} = \sum^n_{k=1} a_{ik}a_{kj} = \sum^j_{k=1}  a_{ik}a_{kj} + \sum^n_{k=j+1}  a_{ik}a_{kj} = 0
+\end{equation}
+第一項については$a_{ik} = 0$第二項については$a_{kj}=0$、
+$i>j$である要素は0なので上三角行列$A$の2乗も上三角行列\\
+\;\\
+上三角行列$A$の2乗の$i=j$の要素について考える。
+\begin{equation}
+  {(A^2)}_{jj} = \sum^n_{k=1} a_{jk}a_{kj} = \sum^{j-1}_{k=1}  a_{jk}a_{kj} +a_{jj}a_{jj}+ \sum^n_{k=j+1}  a_{jk}a_{kj} = {(a_{jj})}^2
+\end{equation}
+第一項については$a_{jk} = 0$第三項については$a_{kj}=0$、上三角行列の対角要素について、${(A^2)}_{jj}={(a_{jj})}^2$が言える。
+
+\end{document}

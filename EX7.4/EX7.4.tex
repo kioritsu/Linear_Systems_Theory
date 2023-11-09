@@ -1,0 +1,154 @@
+\documentclass{jsarticle}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+
+\begin{document}
+
+\rightline{2022/6/15}
+
+\section{EX7.4:行列のべき乗と指数} 
+行列$A$を考える。
+\begin{equation}
+  A = 
+  \begin{bmatrix}
+    2&2&0\\
+    0&0&0\\
+    0&0&2
+  \end{bmatrix}
+\end{equation}
+$A^{100}$と$e^{t A}$を計算せよ。
+ヒント:$A$を対角化。
+\;\\
+$A$を対角化する。
+\begin{equation}
+  \text{det}(A - \lambda) = \text{det}
+  \begin{bmatrix}
+    2-\lambda&2&0\\
+    0&-\lambda&0\\
+    0&0&2-\lambda
+  \end{bmatrix}
+   = -\lambda(2-\lambda)^2
+\end{equation}
+$\lambda = 2$を考える。
+\begin{equation}
+  A-\lambda = \begin{bmatrix}
+    0&2&0\\
+    0&-2&0\\
+    0&0&0
+  \end{bmatrix}
+\end{equation}
+であるため、固有ベクトルは
+$\begin{bmatrix}
+  1\\0\\0
+\end{bmatrix},
+\begin{bmatrix}
+  0\\0\\1
+\end{bmatrix}$\\
+$\lambda = 0$を考える。
+\begin{equation}
+  A-\lambda = \begin{bmatrix}
+    2&2&0\\
+    0&0&0\\
+    0&0&2
+  \end{bmatrix}
+\end{equation}
+であるため、固有ベクトルは
+$\begin{bmatrix}
+  -1\\1\\0
+\end{bmatrix},$
+よって、
+\begin{equation}
+  P = \begin{bmatrix}
+    1&0&-1\\
+    0&0&1\\
+    0&1&0
+  \end{bmatrix},
+  P^{-1} = \begin{bmatrix}
+    1&1&0\\
+    0&0&1\\
+    0&1&0
+  \end{bmatrix}
+\end{equation}
+\begin{equation}
+  D = P^{-1}AP = \begin{bmatrix}
+    2&0&0\\
+    0&2&0\\
+    0&0&0
+  \end{bmatrix}
+\end{equation}
+それぞれ計算する。
+\begin{equation}
+  A^{100} = PD^{100}P^{-1} = 
+  \begin{bmatrix}
+    1&0&-1\\
+    0&0&1\\
+    0&1&0
+  \end{bmatrix}
+  \begin{bmatrix}
+    2^{100}&0&0\\
+    0&2^{100}&0\\
+    0&0&0
+  \end{bmatrix}
+  \begin{bmatrix}
+    1&1&0\\
+    0&0&1\\
+    0&1&0
+  \end{bmatrix}
+  =\begin{bmatrix}
+    2^{100}&2^{100}&0\\
+    0&0&0\\
+    0&0&2^{100}
+  \end{bmatrix}
+\end{equation}
+\begin{equation}
+  e^{tA} = Pe^{tD}P^{-1} = 
+  \begin{bmatrix}
+    1&0&-1\\
+    0&0&1\\
+    0&1&0
+  \end{bmatrix}
+  \begin{bmatrix}
+    e^{2t}&0&0\\
+    0&e^{2t}&0\\
+    0&0&0
+  \end{bmatrix}
+  \begin{bmatrix}
+    1&1&0\\
+    0&0&1\\
+    0&1&0
+  \end{bmatrix}
+   = \begin{bmatrix}
+    e^{2t}&e^{2t}&0\\
+    0&0&0\\
+    0&0&e^{2t}
+  \end{bmatrix}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,75 @@
+\documentclass{jsarticle}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+
+\begin{document}
+
+\rightline{2022/6/1}
+
+\section*{5.2 :非斉次線形システムの解}
+
+非斉次LTV系である式(5.6)の解を求める。
+\begin{equation}
+  \dot{x} = A(t)x + B(t)u\;,\;y=C(t)x(t)+D(t)u\;,\;x(t_0)=x_0\in \mathbb{R}^n\;,\;t\geq 0 \tag{5.6}
+\end{equation}
+
+\begin{itembox}[l]{定理5.2:定数の変化}
+式(5.6) の一意解は 
+\begin{equation}
+  x(t) = \Phi(t,t_0)x_0 + \int^t_{t_0} \Phi(t,\tau)B(\tau)u(\tau)d\tau \tag{5.7}
+\end{equation}
+\begin{equation}
+  y(t) = C(t)\Phi(t,t_0)x_0 + \int^t_{t_0} C(t)\Phi(t,\tau)B(\tau)u(\tau) d\tau +D(t)u(t) \tag{5.8}
+\end{equation}
+で与えられる。ここで、$\Phi(t,t_0)$は状態遷移行列である。
+\end{itembox}
+
+式(5.7)は定数の変化式(variation of constants formula)として知られている。
+式(5.8) の 
+\begin{equation}
+  y_h(t) := C(t)\Phi(t,t_0)x_0
+\end{equation}
+の項を斉次応答(homogeneous response)と呼び、
+\begin{equation}
+  y_f(t) := \int^t_{t_0} C(t)\Phi(t,\tau)B(\tau)u(\tau) d\tau +D(t)u(t)
+\end{equation}
+の項を強制応答(forced response)と呼ぶ。
+
+定理 5.2 の証明\\
+式(5.7) が 式(5.6) の解であることを確認するために、
+$t = t_0$ において 式(5.7) の積分は消え、
+$x (t_0) = x_0$ となることに注意する。
+式(5.7) の各辺を時間に関して微分すると 
+\begin{equation}
+  \begin{aligned}
+    \dot{x} = & \frac{d \Phi(t,t_0)}{dt} x_0 + \Phi(t,t)B(t)u(t) + \int^t_{t_0}\frac{d \Phi(t,\tau)}{dt}B(\tau)u(\tau)d\tau
+    = & A(t)\Phi(t,t_0)x_0 + B(t)u(t) + A(t)\int^t_{t_0}\Phi(t,\tau)B(\tau)u(\tau) d\tau
+    = & A(t)x(t) + B(t)u(t)
+  \end{aligned}
+\end{equation}
+となり、式(5.7)は確かに式(5.6)の解であることが分かる。
+解の一意性は、$x \mapsto A(t)x + B(t)u(t)$ が
+任意の固定$t$に対してグローバル・リプシッツ写像であることから分かる。[1,Chapter1]
+
+式(5.8) の $y (t)$ の式は、$y ( t ) = C ( t ) x ( t ) + D ( t ) u $に
+$ x ( t )$ を代入することで得られる。 
+$\Box$
+\end{document}

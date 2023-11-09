@@ -1,0 +1,148 @@
+\documentclass{jsarticle}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+\begin{document}
+
+\rightline{2022/5/24}
+
+
+\section*{2.4:Feedback Linearization}
+この章では、非線形系から線形系を生み出すもう一つのメカニズムについて説明する。まず、機械系に限定して考察する。
+
+\section*{2.4.1:Mechanical Systems}
+多くの機械系の運動方程式は以下の形式で書くことができる。
+\begin{equation}
+  M(q)\ddot{q}+B(q,\dot{q})\dot{q}+G(q)=F  \tag{2.7}
+\end{equation}
+
+ここで、$q\in \mathbb{R}^k$は一般化座標ベクトル(generalized coordinates vector)と呼ばれる、長さおよび/または角度位置を持つ$k$ベクトル、
+$M(q)$は質量行列(mass matrix)と呼ばれる$k\times k$非特異対称正定値行列、
+$F\in \mathbb{R}^k$は応用力ベクトル(applied force vector)と呼ばれる、応用力および/またはトルクを持つ$k$ベクトル、
+$G(q)$は保存力ベクトル(conservative forces vector)と呼ばれる$k$ベクトル、
+$B(q,\dot{q})$は遠心力/コリオリ/摩擦行列と呼ばれる$k\times k$行列である。
+摩擦のない系では一般に
+\begin{equation}
+  \dot{q}'B(q,\dot{q})\dot{q} = 0, \forall \dot{q}\in \mathbb{R}^k
+\end{equation}
+摩擦のある系では
+\begin{equation}
+  \dot{q}'B(q,\dot{q})\dot{q} \geq 0, \forall \dot{q}\in \mathbb{R}^k
+\end{equation}
+となり、$\dot{q} = 0$のときのみ等式となる。
+
+注1（Newton-Euler 力学）。
+運動方程式(2.7)は、一般化座標の微分で二次式となる運動エネルギーと、
+一般化座標に依存することはあってもその微分に依存しない位置エネルギーを持つ古典ニュートン・オイラー力学
+またはラグランジュ力学に従う系に有効である[17]。
+このような系には、ロボットアーム、移動ロボット、飛行機、ヘリコプター、水中航行体、ホバークラフトなどがある。
+
+注2（保存力）。
+ある物体を点Aから点Bに移動させる総仕事$W= \int^B_A G(q) \cdot dq$が物体の経路に依存しない場合、力は保存的である。
+保存力という言葉は、このような力を受けて動く物体は、その総機械的エネルギーを維持することに由来している。
+一般に、$G$は重力やばねの力を考える。
+
+\section*{2.4.2:Examples}
+
+例2.1 (倒立振子). \par
+図2.2に示す倒立振子の力学系は
+\begin{equation}
+  ml^2\ddot{\theta} = mgl\sin{\theta}-b\dot{\theta}+T
+\end{equation}
+で与えられ、ここで$T$は基礎にかかるトルク、$g$は重力加速度。
+この式は、
+\begin{equation}
+  q := \theta , F := T , M(q) := ml^2 , B(q) := b , G(q) := -mgl\sin{\theta}
+\end{equation}
+を定義すれば、(2.7)と同様にみなすことができる。
+振り子の基礎がモータに接続されている場合、トルク$T$を制御入力と見なすことができる。
+
+\newpage
+
+例2.2 (ロボットアーム). \par
+図2.3に示す2つの回転関節を持つロボットアームの力学系は、
+\begin{equation}
+  q := 
+  \begin{bmatrix}
+    \theta_1 \\
+    \theta_2 \\
+  \end{bmatrix}
+  , F := 
+  \begin{bmatrix}
+    \tau_1 \\
+    \tau_2 \\
+  \end{bmatrix}
+\end{equation}
+を定義すれば(2.7)のように書くことができる。ここで$\tau_1,\tau_2$は関節にかかるトルクを表す。
+この系は$g$は重力加速度として、
+\begin{equation}
+  \begin{array}{l}
+  M(q)=\left[\begin{array}{cc}
+  m_{2} \ell_{2}^{2}+2 m_{2} \ell_{1} \ell_{2} \cos \theta_{2}+\left(m_{1}+m_{2}\right) \ell_{1}^{2} & m_{2} \ell_{2}^{2}+m_{2} l_{1} \ell_{2} \cos \theta_{2} \\
+  m_{2} \ell_{1} \ell_{2} \cos \theta_{2}+m_{2} \ell_{2}^{2} & m_{2} \ell_{2}^{2}
+  \end{array}\right] \\
+  B(q, \dot{q}):=\left[\begin{array}{cc}
+  -2 m_{2} \ell_{1} \ell_{2} \dot{\theta}_{2} \sin \theta_{2} & -m_{2} \ell_{1} \ell_{2} \dot{\theta}_{2} \sin \theta_{2} \\
+  m_{2} \ell_{1} \ell_{2} \dot{\theta}_{1} \sin \theta_{2} & 0
+  \end{array}\right] \\
+  G(q):=\left[\begin{array}{c}
+  m_{2} g \ell_{2} \cos \left(\theta_{1}+\theta_{2}\right)+\left(m_{1}+m_{2}\right) g \ell_{1} \cos \theta_{1} \\
+  m_{2} g \ell_{2} \cos \left(\theta_{1}+\theta_{2}\right)
+  \end{array}\right],
+  \end{array}
+\end{equation}
+
+例2.3（ホバークラフト）。\par
+図2.4はカリフォルニア工科大学で作られた小型のホバークラフトである。
+その力学系は
+\begin{equation}
+  q := 
+  \begin{bmatrix}
+    x \\
+    y \\
+    \theta\\
+  \end{bmatrix}
+  ,F := 
+  \begin{bmatrix}
+    (F_s+F_p)\cos{\theta}-F_l\sin{\theta}\\
+    (F_s+F_p)\sin{\theta}-F_l\cos{\theta}\\
+    l(F_s-F_p)\\
+  \end{bmatrix}
+\end{equation}
+を定義すれば(2.7)のように書くことができ、$F_s,F_p,F_l$はそれぞれ右舷、左舷、側面方向のファンの力を表す。
+2.4の写真の車両は側面方向のファンを持たないので$F_l=0$となり、
+制御数$(F_s,F_p)$が自由度$(x,y,\theta)$より小さいので、アンダーアクチュエータと呼ばれます。
+この系は、$m = 5.5 \si{kg}$は車両の質量、$J = 0.047 \si{kgm^2}$ はその回転慣性、$d_v = 4.5$ は粘性摩擦係数、
+$d,_w= 0.41$ は回転摩擦係数、$l = 0.123 \si{m}$は力のモーメントアームとする。車両の幾何学的中心と質量中心は一致すると仮定すると、
+\begin{equation}
+  \begin{bmatrix}
+    m&0&0 \\
+    0&m&0 \\
+    0&0&J \\
+  \end{bmatrix}
+  ,
+  \begin{bmatrix}
+    d_v&0&0 \\
+    0&d_v&0 \\
+    0&0&d_w \\
+  \end{bmatrix}
+\end{equation}
+
+\end{document}

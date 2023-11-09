@@ -1,0 +1,102 @@
+\documentclass{jsarticle}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+
+\begin{document}
+
+\rightline{2022/6/14}
+
+\section*{7.2:ジョルダン正規形による行列のべき乗の計算}
+
+$n\times n$ の行列 $A$ が与えられたとき、$J =PAP^{-1}$ を $A$ のジョルダン正規形とする。
+\begin{equation}
+  J = PAP^{-1} \Leftrightarrow A = P^{-1}JP
+\end{equation}
+なので、
+\begin{equation}
+  A^t = P^{-1}J^tP = P^{-1}
+  \begin{bmatrix}
+    J^t_1 & 0 & \cdots & 0\\
+    0 & J^t_2 & \cdots & 0\\
+    \vdots & \vdots & \ddots & \vdots\\
+    0 & 0 & \cdots & j^t_l
+  \end{bmatrix}P \tag{7.1}
+\end{equation}
+である。
+ここで、$J_i$ は$A$のジョルダンブロック。
+ジョルダンブロック$J_i$から$J^t_i$を計算するのは$t$の帰納法で可能であるため、簡単である。
+\begin{equation}
+  \begin{aligned}
+  J_i =& \begin{bmatrix}
+    \lambda_i&1 & 0 & \cdots & 0\\
+    0 & \lambda_i &1& \cdots & 0\\
+    0 &0& \lambda_i & \cdots & 0\\
+    \vdots & \vdots& \vdots & \ddots & \vdots\\
+    0 & 0 &0& \cdots & \lambda_i
+  \end{bmatrix}_{n_i\times n_i}\\
+  & \Rightarrow J^t_i = \begin{bmatrix}
+    \lambda^t_i & t\lambda^{t-1}_i& \frac{t!\lambda^{t-2}_i}{(t-2)!2!}&\frac{t!\lambda^{t-3}_i}{(t-3)!3!}&\cdots&\frac{t!\lambda^{t-n_i+1}_i}{(t-n_i+1)!(n_i-1)!}\\
+    0 & \lambda^t_i & t\lambda^{t-1}_i& \frac{t!\lambda^{t-2}_i}{(t-2)!2!}&\cdots&\frac{t!\lambda^{t-n_i+2}_i}{(t-n_i+2)!(n_i-2)!}\\
+    0&0 & \lambda^t_i & t\lambda^{t-1}_i&\cdots&\frac{t!\lambda^{t-n_i+3}_i}{(t-n_i+3)!(n_i-3)!}\\
+    \vdots&\vdots&\vdots&\ddots&\ddots &\vdots\\
+    0&0&0&0&\ddots&t\lambda^{t-1}_i\\
+    0&0&0&0&\ddots&t\lambda^{t}_i\\
+  \end{bmatrix}
+\end{aligned}\tag{7.2}
+\end{equation}
+上の式は $O! = 1 $と$J^t_i$のエントリのうち負の数の階乗を含むものを0と仮定している。
+
+式(7.2) の $J^t_i$ のエントリを調べると，次のような結論が得られる。
+\begin{enumerate}
+  \item $\lambda_i$のマグニチュードが1より厳密に小さいとき、$t\rightarrow \infty$として$J^t_i\rightarrow 0$
+  \item $\lambda_i$のマグニチュードが1に等しく、
+  ジョルダンブロックが$1\times 1$(すなわち$n_i = 1$)
+  のとき、$t\rightarrow \infty$として$J^t_i$は有界である。
+  \item $\lambda_i$のマグニチュードが1より厳密に大きいか、
+  または$\lambda_i$のマグニチュードが1に等しく、
+  ジョルダンブロックが$1\times 1$より大きいとき、
+  $t\rightarrow \infty$として$J^t_i$は非有界である。
+
+\end{enumerate}
+
+これらの考察は式(7.1) と共に、
+$A$の固有値と$t\rightarrow \infty$においての$A^t$に起こること
+の関係について、
+以前に見たことを確認し、さらなる考察を与えるもの。
+
+\begin{enumerate}
+  \item $A$のすべての固有値のマグニチュードが 1 よりも厳密に小さいとき、
+  $t\rightarrow \infty$としてすべての$J^t_i\rightarrow 0$であり、
+  したがって$t\rightarrow \infty$として$A \rightarrow 0 $となる。
+  \item $A$のすべての固有値のマグニチュードが 1 より小さいか等しく、
+  マグニチュードが 1 に等しい固有値に対応する
+  すべてのジョルダンブロックが $1 \times 1$ であるとき、
+  $t\rightarrow \infty$として全ての$J^t_i$は有界であり、
+  その結果、$t\rightarrow \infty$として$A^t$も有界。
+  \item $A$の固有値のうち少なくとも1つが1より大きい、
+  または1に等しい大きさで、対応するジョルダンブロックが
+  $1 \times 1$ より大きいとき、$t\rightarrow \infty$として$A^t$は非有界。
+
+
+\end{enumerate}
+
+
+\end{document}

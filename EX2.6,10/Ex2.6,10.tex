@@ -1,0 +1,244 @@
+\documentclass{jsarticle}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+\begin{document}
+
+\rightline{2022/5/25}
+
+\section*{Ex2.6 (平衡付近の局所的な線形化:one-link robot)} 
+
+図2.9のようなワンリンクロボットを考える。
+ここで、$\theta$はリンクの水平に対する角度、$\tau$は基礎にかかるトルク、$(x,y)$は先端の位置、$l$はリンクの長さ、
+$I$は慣性モーメント、$m$は先端の質量、$g$は重力加速度、$b$は摩擦係数を表します。この系は以下の式に従って進化する。
+\begin{equation}
+  I\ddot{\theta} = -b\dot{\theta} - gm\cos{\theta} + \tau
+\end{equation}
+
+(a) $u = \tau$ を入力とし、先端の垂直位置 $y$ を出力としたときの系の状態空間モデルを計算しなさい。
+先端部の水平位置 $x$ と混同しないように状態ベクトルを $\bm{z}$ とし、適当な関数 $f, g$ に対して
+\begin{equation}
+  \dot{z} = f(z,u),y = g(z,u)
+\end{equation}
+という形でモデルを記述せよ。
+【ヒント：出力の式を忘れないように。】
+\;\\
+\;\\
+まず、状態ベクトルを
+$\bm{z} = \left[ \begin{array}{c} z_1\\z_2 \end{array} \right] = \left[ \begin{array}{c} \theta\\ \dot{\theta} \end{array}\right]$とする。
+ここで、$\dot{\bm{z}},y$を考えると、
+\;\\
+\;\\
+\begin{equation}
+  \dot{\bm{z}} = \left[
+    \begin{array}{c}
+      \dot{\theta}\\
+      -\frac{b}{I}\dot{\theta}-\frac{gm}{I}\cos{\theta}+\frac{\tau}{I}
+    \end{array}
+  \right]
+  = \left[
+    \begin{array}{c}
+      z_2\\
+      -\frac{b}{I}z_2-\frac{gm}{I}\cos{z_1}+\frac{u}{I}
+    \end{array}
+  \right]
+  = f(\bm{z},u)
+\end{equation}
+
+\begin{equation}
+  y = l\sin{\theta} = l\sin{z_1} = g(\bm{z},u)
+\end{equation}
+
+
+
+(b) $\theta(t) = \frac{\pi}{2},\tau(t) = 0$が系の解であることを示し、この解を中心とした線形化を計算しなさい。
+この解答から、$y$ からのフィードバックだけで、先端位置をこの形に近づけようとした場合、問題があるかどうか予測できますか？
+\;\\
+
+$\theta(t) = \frac{\pi}{2},\tau(t) = 0$は式(1)を満たすため、系の解である。\par
+定義2.5より、この解を中心とした線形化を計算する。
+\begin{equation}
+  \dot{\partial \bm{z}} = A(t)\partial\bm{z} +B(t)\partial u\;,\;
+  \partial y =C(t) \partial \bm{z} + D(t)\partial u
+\end{equation}
+
+\begin{equation*}
+  \begin{array}{cc}
+    \frac{\partial f(\bm{z},u)}{\partial\bm{z}} = 
+    \left[
+    \begin{array}{ccc}
+      0 & 1 \\
+      \frac{gm}{I}\sin{z_1} & -\frac{b}{I} 
+    \end{array}
+    \right] 
+    \;\;,&\;\;
+    \frac{\partial f(\bm{z},u)}{\partial u} = 
+    \left[
+    \begin{array}{c}
+      0\\
+      \frac{1}{I}
+    \end{array}
+    \right]\\
+    \;\\
+    \frac{\partial g(\bm{z},u)}{\partial \bm{z}} = 
+    \left[
+    \begin{array}{c}
+      l\cos{z_1}\\
+      0
+    \end{array}
+    \right]
+    \;\;,&\;\;
+    \frac{\partial g(\bm{z},u)}{\partial u} = 0\\
+  \end{array}
+\end{equation*}
+
+$\bm{z},u$に解を代入。
+
+\begin{equation}
+  \begin{array}{cc}
+    A(t) = 
+    \left[
+    \begin{array}{ccc}
+      0 & 1 \\
+      \frac{gm}{I} & -\frac{b}{I} 
+    \end{array}
+    \right]
+    \;\;,&\;\;
+    B(t) = 
+    \left[
+    \begin{array}{c}
+      0\\
+      \frac{1}{I}
+    \end{array}
+    \right]\\
+    \;\\
+
+    C(t) = \bm{0}
+    \;\;,&\;\;
+    D(t) = 0\\
+  \end{array} 
+\end{equation}
+
+\begin{equation}
+  \dot{\partial \bm{z}} = 
+  \left[
+    \begin{array}{ccc}
+      0 & 1 \\
+      \frac{gm}{I} & -\frac{b}{I} 
+    \end{array}
+    \right]
+    \partial \bm{z} + 
+    \left[
+    \begin{array}{c}
+      0\\
+      \frac{1}{I}
+    \end{array}
+    \right]
+    \partial u 
+    \;\;,\;\;
+    \partial y = 0
+\end{equation}
+
+出力$y$の変化がないため、$y$からのフィードバックだけでは問題がありそう。
+
+\newpage
+
+\section*{Ex2.10(厳密フィードバック形式のシステムに対するフィードバック線形化)}
+
+2.4.4節で説明した、
+次数2の厳密なフィードバック形式のシステムに対する手順を、 
+\begin{equation}
+  \begin{array}{c}
+    \dot{x}_1 = f_1(x_1) + x_2\\
+    \dot{x}_2 = f_2(x_1,x_2) +x_3\\
+    \vdots\\
+    \dot{x}_n = f_n(x_1,x_2,\dots,x_n)+u
+  \end{array}
+\end{equation}
+で与えられる任意の次数$n \geq 2$の厳密なフィードバックのシステムへ拡張せよ。
+\;\\
+
+変数$z_2$を下のように定義する。
+\begin{equation}
+  z_2 := \dot{x}_1 = f_1(x_1) + x_2
+\end{equation}
+微分を考える。
+\begin{equation}
+  \begin{aligned}
+    \dot{z}_2 &= \frac{\partial f_1}{\partial x_1}(x_1)\dot{x}_1+\dot{x}_2\\
+    &= \frac{\partial f_1}{\partial x_1}(x_1)( f_1(x_1) + x_2)+(f_2(x_1,x_2) +x_3)\\
+  \end{aligned}
+\end{equation}
+変数$z_3$を下のように定義する。
+\begin{equation}
+  z_3 := \dot{z}_2 = \frac{\partial f_1}{\partial x_1}(x_1)( f_1(x_1) + x_2)+(f_2(x_1,x_2) +x_3)
+\end{equation}
+微分を考える。
+\begin{equation}
+  \begin{aligned}
+    \dot{z}_3 = & \frac{\partial^2 f_1}{\partial x_1^2}(x_1)\dot{x}_1( f_1(x_1) + x_2) 
+    + \frac{\partial f_1}{\partial x_1} (x_1)  \{ \frac{\partial f_1}{\partial x_1} (x_1)\dot{x}_1 + \dot{x}_2 \} 
+    + \frac{\partial f_2} {\partial x_1} (x_1,x_2)\dot{x}_1 + \frac{\partial f_2} {\partial x_2} (x_1,x_2)\dot{x}_2 + \dot{x}_3\\
+    = & \frac{\partial^2 f_1}{\partial x_1^2}(x_1)( f_1(x_1) + x_2)^2
+    +  \{ \frac{\partial f_1}{\partial x_1} (x_1) \}^2( f_1(x_1) + x_2)
+    + \frac{\partial f_1}{\partial x_1} (x_1) (f_2(x_1,x_2) +x_3)\\
+    &+ \frac{\partial f_2} {\partial x_1} (x_1,x_2)( f_1(x_1) + x_2) + \frac{\partial f_2} {\partial x_2} (x_1,x_2) (f_2(x_1,x_2) +x_3)
+    +(f_2(x_1,x_2,x_3) +x_4)
+  \end{aligned}
+\end{equation}
+
+同様に、$z_i = \dot{z}_{i-1}$と考えると、$z_{n}$の微分は
+\begin{equation}
+  \dot{z}_{n} =  \frac{\partial^{n-1}f_1}{\partial x_1^2}(x_1)( f_1(x_1) + x_2)^{n-1} +\dots + f_n(x_1,x_2,\dots,x_n)+u
+\end{equation}
+となり、$\dot{z}_n = v$となるように$v$を定めると、
+\begin{equation}
+  \begin{array}{c}
+    \dot{x}_1 = z_2\\
+    \dot{z}_2 = z_3\\
+    \vdots\\
+    \dot{z}_n = v
+  \end{array}
+\end{equation}
+となる。
+\;\\
+\;\\
+$\dot{x}_{i-1} = z_{i}$とした場合、$z_{i} = v_{i}$をみたすような$v_i$を定められるため、そちらでもいい??
+この場合、
+\begin{equation}
+  \begin{array}{c}
+    \dot{x}_1 = z_2\\
+    \dot{z}_2 = v_2\\
+    \{x_3 =  -\{ \frac{\partial f_1}{\partial x_1}(x_1)( f_1(x_1) + x_2)+f_2(x_1,x_2) \}+v_2 \}\\
+    \vdots\\
+    \dot{x}_{n-1} = z_n\\
+    \dot{z}_n = v_n\\
+    \begin{aligned}
+      \{u = &-\{\frac{\partial f_{n-1}}{\partial x_1}(x_1,\dots,x_{n-1})(f_1(x_1)+x_2)
+      + \frac{\partial f_{n-1}}{\partial x_2}(x_1,\dots,x_{n-1})(f_1(x_1,x_2)+x_3)
+      \\
+      & +\cdots +
+      \frac{\partial f_{n-1}}{\partial x_{n-1}}(x_1,\dots,x_{n-1})(f_{n-1}(x_1,x_2,\dots,x_{n-1})+x_n)
+      + f_n(x_1,x_2,\dots,x_n)\} + v\}\\
+    \end{aligned}
+  \end{array}
+\end{equation}
+
+\end{document}

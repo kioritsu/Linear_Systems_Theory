@@ -1,0 +1,121 @@
+\documentclass{jsarticle}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+
+\begin{document}
+
+\rightline{2022/6/9}
+
+\section*{6.2: 行列指数の特性 }
+
+以下の性質は、一般的な時間変化システムの状態遷移行列について以前確認した性質の直接的な結果。
+
+性質(行列指数)\\ 
+P6.1\;\;関数$e^{tA}$は以下の式の一意解である。
+\begin{equation}
+  \frac{d}{dt}e^{tA} = Ae^{tA}\;,\;e^{0\cdot A} = I\;,\;t\geq 0
+\end{equation}
+P6.2\;\;$e^{tA}$ の$i$列は以下の式の一意解である。ここで$e_i$は$\mathbb{R}^n$のカノニカル基底の第$i$ベクトル。
+\begin{equation}
+  \dot{x}(t) = Ax(t)\;,\;x(0) = e_i\;,\;t\geq 0
+\end{equation}
+P6.3\;\;すべての$t,\tau \in \mathbb{R}$について , 
+\begin{equation}
+  e^{tA}e^{A\tau} = e^{A(t+\tau)}
+\end{equation}
+P6.4\;\;すべての$t\in \mathbb{R}$において、$e^{tA}$は非特異であり、
+\begin{equation}
+  {(e^{tA})}^{-1} = e^{-At}
+\end{equation}
+
+LTI系では、状態遷移行列はCayley-Hamiltonの定理から導かれる
+さらに重要な性質を持ってる。多項式
+\begin{equation}
+  p(s) = a_0s^n + a_1s^{n-1}+a_2s^{n-2}+\cdots+a_{n-1}s+a_n
+\end{equation}
+が与えられ、$n\times n$ の行列 $A$ があるとき、
+\begin{equation}
+  p(A) := a_0A^n + a_1A^{n-1}+a_2A^{n-2}+\cdots+a_{n-1}A+a_nI_{n\times n}
+\end{equation}
+と定義し、これも $n\times n$ 行列である。
+
+\begin{itembox}[l]{定理6.1:Cayley - Hamilton}
+すべての$n\times n$行列$A$に対して 
+\begin{equation}
+  \Delta (A) = A^n + a_1A^{n-1}+a_2A^{n-2}+\cdots+a_{n-1}A+a_nI_{n\times n} = 0_{n\times n}
+\end{equation}
+ここで 
+\begin{equation}
+  \Delta (s) = s^n + a_1s^{n-1}+a_2s^{n-2}+\cdots+a_{n-1}s+a_n
+\end{equation}
+は $A$ の特性多項式である。
+\end{itembox}
+
+Cayley - Hamiltonの定理の証明については、[1]を参照。
+
+行列指数の次の性質は、Cayley - Hamilton定理の帰結であり、
+時間不変の場合に特有のものである。
+\newpage
+性質（行列指数、続き）\\ 
+P6.5\;\;すべての$n\times n$行列Aに対して、式(6.5)を満たす
+$n$個のスカラー関数$\alpha_0(t),\alpha_1(t),\dots,\alpha_{n-1}(t)$が存在する。
+\begin{equation}
+  e^{tA} = \sum^{n-1}_{i=0} \alpha_i(t)A^i \;,\;\forall t \in \mathbb{R} \tag{6.5}
+\end{equation}
+証明\;\;Cayley - Hamilton の定理より、
+\begin{equation}
+  A^n+a_1A^{n-1}+a_2A^{n-2}+\cdots+a_{n-1}A+a_nI = 0
+\end{equation}
+ここで、$a_i$は $A$ の特性多項式の係数。
+\begin{equation}
+  A^n = -a_1A^{n-1}-a_2A^{n-2}-\cdots-a_{n-1}A-a_nI
+\end{equation}
+これを用いると，以下のようになる。
+\begin{equation}
+  \begin{aligned}
+    A^{n+1} =& -a_1A^{n}-a_2A^{n-1}-\cdots-a_{n-1}A^2-a_nA\\
+    =& a_1(a_1A^{n-1}+a_2A^{n-2}+\cdots+a_{n-1}A+a_nI)-a_2A^{n-1}-\cdots-a_{n-1}A^2-a_nA\\
+    =& (a_1^2-a_2)A^{n-1}+(a_1a_2-a_3)A^{n-2}+\cdots + (a_1a_{n-1}-a_n)A+a_1a_nI
+  \end{aligned}
+\end{equation}
+したがって、$A^{n+1}$は$A^{n-1},A^{n-2},\dots,A,I$の線形結合としても書ける。
+$A$ の累乗の部分を増やしても同様の操作を行うことによって
+、$k \geq 0 $のとき、$A^k$ は適当な係数 $a_i( k ) $を用いて以下のように書ける。
+\begin{equation}
+  A^k = \bar{a}_{n-1}(k)A^{n-1} + \bar{a}_{n-2}(k)A^{n-2}+\cdots+\bar{A}_1(k)A+a_0(k)I \tag{6.6}
+\end{equation}
+これを $e^{tA}$ の定義に置き換えると、以下のようになる。
+\begin{equation}
+  e^{tA} = \sum^\infty_{k=0}\frac{t^k}{k!}A^k=\sum^\infty_{k=0}\frac{t^k}{k!}\sum^{n-1}_{i=0}\bar{a}_i(k)A^i
+\end{equation}
+和の順序を入れ替えると，以下のようになる。
+\begin{equation}
+  e^{tA} = \sum^{n-1}_{i=0}\left(\sum^\infty_{k=0}\frac{t^k\bar{a}_i(k)}{k!}\right)A^i
+\end{equation}
+$\alpha_i(t) := \sum^\infty_{k=0}\frac{t^k\bar{a}_i(k)}{k!}$と定義すれば 式(6.5)が成り立つ。\\
+P6.6\;\;すべての $n \times n$ 行列 $A$ に対して 、
+\begin{equation}
+  Ae^{tA} = e^{tA}A\;,\;\forall t\in \mathbb{R}
+\end{equation}
+となる。
+これはP6.5の直接の帰結。
+
+\end{document}

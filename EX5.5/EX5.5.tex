@@ -1,0 +1,65 @@
+\documentclass{jsarticle}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+
+\begin{document}
+
+\rightline{2022/6/7}
+
+\section*{EX5.5:LTV システムの解} 
+
+状態遷移行列$\Phi(t,\tau)$を持つ、斉次線形時変システム
+\begin{equation}
+  \dot{x} =A(t)x\;,\;x(0) = x_0
+\end{equation}
+を考える。また、入力 $x ( t )$ が斉次システムの状態である非斉次システム
+\begin{equation}
+  \dot{z} = A(t)z + x(t) \;,\; z(0) = z_0
+\end{equation}
+も考える。
+\begin{itemize}
+  \item[(a)] $x_0 , z_0,\Phi$ の関数として $x ( t )$ と $z ( t ) $を計算せよ。答えに積分は含まれない。
+  \item[(b)] 与えられた時間 $T > 0 $において、$z ( T ) = 0$ となるような $x_0$ と $z_0$ はどのように関係づけられるか？
+\end{itemize}
+\;\\
+(a)\;\;定理5.1より、
+\begin{equation}
+  x(t) = \Phi(t,0)x_0
+\end{equation}
+定理5.2より、
+\begin{equation}
+  \begin{aligned}
+    z(t) = &\Phi(t,0)z_0 + \int^t_0\Phi(t,\tau)x(\tau)d\tau\\
+     = & \Phi(t,0)z_0 + \int^t_0\Phi(t,\tau)\Phi(\tau,0)x_0 d\tau\\
+     = &  \Phi(t,0)z_0 + tx_0\Phi(t,0)
+  \end{aligned} 
+\end{equation}
+
+(b)\;\;式(4)より、$z ( T ) = 0$は、
+\begin{equation}
+  \begin{aligned}
+    z(T) = \Phi(T,0)z_0 + tx_0\Phi(T,0) = 0\\
+    z_0 + tx_0 = 0
+  \end{aligned}
+\end{equation}
+
+
+\end{document}

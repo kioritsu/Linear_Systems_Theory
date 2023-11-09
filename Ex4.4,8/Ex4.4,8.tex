@@ -1,0 +1,234 @@
+\documentclass{jsarticle}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[hang,small,bf]{caption}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage[top=15truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary {shapes.misc}
+\usetikzlibrary{positioning}
+\captionsetup{compatibility=false}
+
+
+\begin{document}
+
+\rightline{2022/6/1}
+\section*{Ex4.4(LTIシステムの出力のZ変換)}
+\begin{equation}
+  x^{+}=A x+B u, \quad y=C x+D u \tag{DLTI}
+\end{equation}
+(DLTI)への出力のZ変換が
+\begin{equation}
+  \begin{aligned}
+    \hat{y}(z)=\hat{\Psi}(z) x(0)+\hat{G}(z) \hat{u}(z), \quad& \hat{\Psi}(z):=C(z I-A)^{-1}z\\
+    & \hat{G}(z):=C(z I-A)^{-1} B+D 
+  \end{aligned}
+\end{equation}
+で与えられることを示せ。
+\;\\
+p41のNote7より、$Z\left[x(t+1)\right] = z(\hat{x}(z)-x(0))$。また、Z変換の線形性より、
+(DLTI)のZ変換はそれぞれ、
+\begin{equation}
+  z(\hat{x}(z)-x(0)) = A\hat{x}(z)+B\hat{u}(z)\;,\;\;
+  \hat{y}(z) = C\hat{x}(z)+D\hat{u}(z)
+\end{equation}
+で得られる。
+\begin{equation}
+  \hat{x}(z) = {(zI-A)}^{-1}B\hat{u}(z)+{(zI-A)}^{-1}zx(0)
+\end{equation}
+式変形して得られた$\hat{x}(z)$を代入して、
+\begin{equation}
+  \hat{y}(z) = \{C(z I-A)^{-1}z\}\hat{u}(z) + \{C(z I-A)^{-1} B+D\}\hat{u}(z)
+\end{equation}
+
+
+\newpage
+
+\section*{Ex4.8（同等の実現）}
+次の2つのシステムを考える。
+\begin{equation}
+  \dot{x} = 
+  \begin{bmatrix}
+    2&1&2\\
+    0&2&2\\
+    0&0&1
+  \end{bmatrix}x+
+    \begin{bmatrix}
+      1\\1\\0
+    \end{bmatrix}u\;,\;\;y=
+    \begin{bmatrix}
+      1&-1&0
+    \end{bmatrix}x
+\end{equation}
+\begin{equation}
+  \dot{x} = 
+  \begin{bmatrix}
+    2&1&1\\
+    0&2&1\\
+    0&0&-1
+  \end{bmatrix}x+
+    \begin{bmatrix}
+      1\\1\\0
+    \end{bmatrix}u\;,\;\;y=
+    \begin{bmatrix}
+      1&-1&0
+    \end{bmatrix}x
+\end{equation}
+\begin{itemize}
+  \item[(a)] これらのシステムはゼロ状態等価であるか。
+  \item[(b)] それらは代数的に等価であるか。
+\end{itemize}
+\;\\
+
+(a) それぞれの伝達関数を求める。
+\begin{equation}
+  \left\{\begin{array} { l } 
+  { \dot { x } = A x + B u  } \\
+  { y = C x + D u }
+  \end{array} 
+  \right.
+  \end{equation}
+\begin{equation}
+  \hat{G}(s) = C(sI-A)^{-1}B+D\tag{4.3}
+\end{equation}
+式(5)\;\;
+\begin{equation}
+  (sI-A) = \begin{bmatrix}
+    s-2& -1& -2\\
+    0  &s-2& -2\\
+    0  & 0 &s-1
+  \end{bmatrix}
+\end{equation}
+\begin{equation}
+  \text{det}(sI-A) = (s-2)^2(s-1)
+\;,\;
+  \text{cof}(sI-A) = \begin{bmatrix}
+    (s-2)(s-1)& 0 & 0\\
+    (s-1)&(s-2)(s-1)& 0\\
+    2(s-1) &2(s-2)&(s-2)^2
+  \end{bmatrix}
+\end{equation}
+\begin{equation}
+  {(sI-A)}^{-1} = \frac{1}{(s-2)^2(s-1)}
+  \begin{bmatrix}
+    (s-2)(s-1)& (s-1) & 2(s-1)\\
+    0&(s-2)(s-1)& 2(s-2)\\
+    0 &0&(s-2)^2
+  \end{bmatrix}
+\end{equation}
+\begin{equation}
+  \hat{G}_5(s) = 
+  \begin{bmatrix}
+    1&-1&0
+  \end{bmatrix}
+  \frac{1}{(s-2)^2(s-1)}
+  \begin{bmatrix}
+    (s-2)(s-1)& (s-1) & 2(s-1)\\
+    0&(s-2)(s-1)& 2(s-2)\\
+    0 &0&(s-2)^2
+  \end{bmatrix}
+  \begin{bmatrix}
+    1\\1\\0
+  \end{bmatrix}
+  = \frac{1}{(s-2)^2}
+\end{equation}
+
+式(6)\;\;
+\begin{equation}
+  (sI-A) = \begin{bmatrix}
+    s-2& -1& -1\\
+    0  &s-2& -1\\
+    0  & 0 &s-1
+  \end{bmatrix}
+\end{equation}
+\begin{equation}
+  \text{det}(sI-A) = (s-2)^2(s-1) \;,\;
+  \text{cof}(sI-A) = \begin{bmatrix}
+    (s-2)(s-1)& 0 & 0\\
+    s-1&(s-2)(s-1)& 0\\
+    s-1 &s-2&(s-2)^2
+  \end{bmatrix} 
+\end{equation}
+\begin{equation}
+  {(sI-A)}^{-1} = \frac{1}{(s-2)^2(s-1)}
+  \begin{bmatrix}
+    (s-2)(s-1)& s-1 & s-1\\
+    0&(s-2)(s-1)&s-2\\
+    0 &0&(s-2)^2
+  \end{bmatrix}
+\end{equation}
+
+
+
+\begin{equation}
+  \hat{G}_6(s) = 
+  \begin{bmatrix}
+    1&-1&0
+  \end{bmatrix}
+  \frac{1}{(s-2)^2(s-1)}
+  \begin{bmatrix}
+    (s-2)(s-1)& s-1 & s-1\\
+    0&(s-2)(s-1)&s-2\\
+    0 &0&(s-2)^2
+  \end{bmatrix}
+  \begin{bmatrix}
+    1\\1\\0
+  \end{bmatrix}
+  = \frac{1}{(s-2)^2}
+\end{equation}
+よって、伝達関数が等しいため、ゼロ状態等価である。\\
+\newpage
+
+(b)\;\;それらは代数的に等価であるかを考える。
+\begin{equation}
+  \left\{\begin{array} { l } 
+  { \dot { x } = A x + B u } \\
+  { y = C x + D u }
+  \end{array} 
+  \right.
+  \;\;
+  \left\{\begin{array} { l } 
+    { \dot { x } = \bar{A} x + \bar{B} u } \\
+    { y = \bar{C} x + \bar{D} u }
+    \end{array} 
+    \right.
+\end{equation}
+2つのLTIシステムについて、以下を満たす非特異行列$T$が存在する時、代数的等価であるという。
+\begin{equation}
+  \bar{A} = TAT^{-1}\;,\;\bar{B} = TB \;,\; \bar{C} = CT^{-1}\;,\;\bar{D} = D
+\end{equation}
+今回の問題では、
+\begin{equation}
+  \begin{bmatrix}
+    2&1&1\\
+    0&2&1\\
+    0&0&-1
+  \end{bmatrix} = T\begin{bmatrix}
+    2&1&2\\
+    0&2&2\\
+    0&0&1
+  \end{bmatrix}T^{-1}\;,\;\begin{bmatrix}
+    1\\1\\0
+  \end{bmatrix} = T\begin{bmatrix}
+    1\\1\\0
+  \end{bmatrix} \;,\; \begin{bmatrix}
+    1&-1&0
+  \end{bmatrix}= \begin{bmatrix}
+    1&-1&0
+  \end{bmatrix}T^{-1}
+\end{equation}
+を満たす$T$が存在するかを考える。
+式(5),(6)の行列$A$部分の全ての要素が等しくないため、代数的に等価ではない。
+
+
+\end{document}
